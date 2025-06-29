@@ -7,7 +7,7 @@ const GRID_SIZE = 40;
 const SIZE = 19;
 
 
-const AI_API_URL = "https://your-aws-api-endpoint.com/gomoku-ai-move";
+const AI_API_URL = "http://3.148.244.65:5000/gomoku-ai-move";
 
 export default function PlayVsAI() {
     const [board, setBoard] = useState(Array(SIZE).fill().map(() => Array(SIZE).fill(0)));
@@ -68,7 +68,7 @@ export default function PlayVsAI() {
             return data.move;
         } catch (error) {
             toast.warn("AI未响应，已随机落子！");
-            return getRandomEmptyPosition(currentBoard); 
+            return null;// getRandomEmptyPosition(currentBoard); 
         }
     }
 
