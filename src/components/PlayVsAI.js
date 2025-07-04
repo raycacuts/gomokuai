@@ -4,7 +4,7 @@ import ResultModal from './ResultModal';
 import { toast } from 'react-toastify';
 
 const GRID_SIZE = 40;
-const SIZE = 19;
+const SIZE = 15;
 
 
 const AI_API_URL = "http://3.148.244.65:5000/gomoku-ai-move";
@@ -51,7 +51,7 @@ export default function PlayVsAI() {
   
         function timeoutPromise(ms) {
             return new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("AI超时")), ms)
+                setTimeout(() => reject(new Error("AI not responding")), ms)
             );
         }
         try {
@@ -64,10 +64,10 @@ export default function PlayVsAI() {
                 timeoutPromise(3000)
             ]);
             const data = await res.json();
-            if (!data.move || data.move.length !== 2) throw new Error("AI返回无效");
+            if (!data.move || data.move.length !== 2) throw new Error("AI Error");
             return data.move;
         } catch (error) {
-            toast.warn("AI未响应，已随机落子！");
+            toast.warn("AI not responding, random play！");
             return null;// getRandomEmptyPosition(currentBoard); 
         }
     }
@@ -130,33 +130,38 @@ export default function PlayVsAI() {
                 myColor={winnerColor}
                 name={winnerColor === 1 ? 'Player' : 'AI'}
                 otherPlayerName={winnerColor === 2 ? 'Player' : 'AI'}
-                opponentDisconnected={false}
-                disconnectedName={''}
+                onPlayAgain={() => {
+                    handleReset();
+                    setShowResult(false);
+                }}
             />
             <div className="game-header-container">
                 <div className="game-header-content">
                     <h1> Gomoku: Player vs AI </h1>
                     <p>Play against the AI (White). You play Black and go first!</p>
+                    
                     <div className={winnerColor !== 0 ? "" : "hide-div"}>
                         <p>{winnerColor === 1 ? "You win!" : "AI wins!"}</p>
                         <button className="btn btn-primary" onClick={handleReset}>
                             Play Again
                         </button>
+                   
                     </div>
                     <p className={gameEnded ? "hide-div" : ""}>
                         <b>Current Turn:</b>{" "}
                         {currentColor === 1 ? "Player (Black)" : "AI (White)"}
                     </p>
+                    {!gameEnded && (
+                        <button className="btn btn-secondary mt-3" onClick={handleReset}>
+                            Reset Game
+                        </button>
+                    )}
                 </div>
             </div>
             <div className="game-inner-container">
                 <Board board={board} size={SIZE} on_play={handlePlay} grid_size={GRID_SIZE} />
             </div>
-            {!gameEnded && (
-                <button className="btn btn-secondary mt-3" onClick={handleReset}>
-                    Reset Game
-                </button>
-            )}
+            
         </div>
     );
 }

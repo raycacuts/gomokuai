@@ -1,57 +1,49 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export default function ResultModal(props) {
+    const [winnerName, setWinnerName] = useState('');
+    const [winnerColor, setWinnerColor] = useState('');
+    const [isWinner, setIsWinner] = useState(false);
 
-	const [winnerName, setWinnerName] = useState('');
-	const [winnerColor, setWinnerColor] = useState('');
-	const [isWinner, setIsWinner] = useState(false);
-	
-	useEffect(() => {
+    useEffect(() => {
+        if (props.myColor === props.winnerColor) {
+            setIsWinner(true);
+            setWinnerName(props.name);
+        } else {
+            setIsWinner(false);
+            setWinnerName(props.otherPlayerName);
+        }
 
-		if(props.myColor === props.winnerColor) {
-			setIsWinner(true);
-			setWinnerName(props.name);
-		} else {
-			setIsWinner(false);
-			setWinnerName(props.otherPlayerName);
-		}
+        setWinnerColor(props.winnerColor === 1 ? "black" : "white");
+    }, [props.myColor, props.winnerColor, props.name, props.otherPlayerName]);
 
-		if(props.winnerColor === 1) {
-			setWinnerColor("black");
-		} else {
-			setWinnerColor("white");
-		}
-		
-	}, [props.myColor, props.winnerColor, props.name, props.otherPlayerName, props.opponentDisconnected]);
-	
-	return (
-		<Modal className = "result-modal" show={props.show} onHide={props.handleClose}>
-			{props.opponentDisconnected ? 
-				<div>
-					
-					<Modal.Title className = "result-title">Uh oh!</Modal.Title>
-			        <Modal.Body className = "result-text">
-			        	Looks like {props.disconnectedName} has left the game.
-			        </Modal.Body>
-		        </div>
-				:
-				<div>
-					
-			        <Modal.Title className = "result-title">{winnerName} ({winnerColor}) has won!</Modal.Title>
-			        <Modal.Body className = "result-text">
-			        	{isWinner ? "Congratulations, you won!" : "Oh well, there's always next time."}
-			        </Modal.Body>
-		        </div>
-	        }
-	        <Modal.Footer className = "result-button-container">
-	        	<a className = "btn btn-primary" href = "/">
-	        		Join a New Game
-		        </a>
-	          	<button className = "btn btn-primary" onClick={props.handleClose}>
-	            	Close
-	          	</button>
-	        </Modal.Footer>
-      	</Modal>
-	);
+    return (
+        <Modal
+            className="result-modal"
+            show={props.show}
+            onHide={props.handleClose}
+            centered
+            backdrop="static"
+        >
+            <Modal.Body style={{ textAlign: 'center', padding: '2em 1em' }}>
+                <h2 style={{ marginBottom: '1.5em' }}>
+                    {isWinner ? 'You win!' : 'AI wins!'}
+                </h2>
+                <p>
+                    Winner: <span style={{ color: winnerColor }}>{winnerName}</span>
+                </p>
+                <div style={{ marginTop: '2em', display: 'flex', justifyContent: 'center', gap: '1em' }}>
+                    <button className="btn btn-primary" onClick={props.onPlayAgain}>
+                        Join a New Game
+                    </button>
+                    <button className="btn btn-secondary" onClick={props.handleClose}>
+                        Close
+                    </button>
+                </div>
+            </Modal.Body>
+        </Modal>
+    );
 }

@@ -241,17 +241,34 @@ $bg-height: 50px;
 }
 
 .game-header-container {
-    width: 40%;
+    height: 40%;
+    width: 50%;
     background-color: white;
-    margin-top: 40px;
-    margin-bottom: 40px;
-    border-radius: 20px;
-    box-shadow: 10px 10px #35743B;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 5px 5px #35743B;
 }
 
 .game-header-content {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 10px; /* Reduce padding */
+    padding-bottom: 10px;
+    font-size: 0.95em; /* Slightly smaller text */
+}
+
+.game-header-content h1 {
+    font-size: 1.5em !important; /* Reduce main title size */
+    margin-bottom: 0.3em;
+}
+
+.game-header-content p {
+    font-size: 1em !important; /* Smaller paragraphs */
+    margin-bottom: 0.5em;
+}
+
+.btn {
+    font-size: 0.7em; /* Smaller buttons */
+    padding: 0.4em 1em;
 }
 
 .board-container {
@@ -312,16 +329,33 @@ $bg-height: 50px;
 
 /* Result Modal Styles */
 
-.modal-dialog {
-    text-align: -webkit-center;
+.result-modal .modal-dialog {
+    max-width: 400px !important;
+    margin: 5vh auto !important;
+    z-index: 9999 !important;
 }
 
-.modal-content {
-    border: none !important;
+.result-modal .modal-content {
+    width: 100% !important;
     border-radius: 20px !important;
-    width: 70% !important;
+    text-align: center;
+    box-shadow: 0 10px 32px rgba(30,60,30,0.16);
+    background: white;
 }
 
+.result-modal .modal-body {
+    padding: 2em 1.5em !important;
+}
+
+.result-modal .modal-footer {
+    background: #8ABB75 !important;
+    border-top: none !important;
+    border-radius: 0 0 20px 20px !important;
+    display: flex !important;
+    justify-content: center !important;
+    padding: 1.5em 1em !important;
+    gap: 1em;
+}
 
 .result-title {
     text-align: center;
