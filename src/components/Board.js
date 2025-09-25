@@ -4,15 +4,19 @@ import BoardIntersection from './BoardIntersection';
 export default function Board(props) {
 
 	const style = {
+
 		width: props.size * props.grid_size,
 		height: props.size * props.grid_size
+
 	};
 	
 	let intersections = [];
 
 	for(let i = 0; i < props.size; i++) {
 		for (let j = 0; j < props.size; j++) {
+
 			intersections.push(BoardIntersection({
+				
 				board: props.board,
 				row: i,
 				col: j,
